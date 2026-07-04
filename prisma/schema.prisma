@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Book {
+  id            String   @id @default(cuid())
+  clerkId       String
+  title         String
+  slug          String   @unique
+  author        String
+  persona       String?
+  fileURL       String
+  fileBlobKey   String
+  coverURL      String?
+  coverBlobKey  String?
+  fileSize      Int
+  totalSegments Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  segments      BookSegment[]
+  voiceSessions VoiceSession[]
+
+  @@index([clerkId])
+  @@index([slug])
+}
+
+model BookSegment {
+  id           String   @id @default(cuid())
+  clerkId      String
+  bookId       String
+  content      String
+  segmentIndex Int
+  pageNumber   Int?
+  wordCount    Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, segmentIndex])
+  @@index([clerkId])
+  @@index([bookId])
+  @@index([bookId, pageNumber])
+}
+
+model VoiceSession {
+  id                 String    @id @default(cuid())
+  clerkId            String
+  bookId             String
+  startedAt          DateTime  @default(now())
+  endedAt            DateTime?
+  durationSeconds    Int       @default(0)
+  billingPeriodStart DateTime
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@index([clerkId])
+  @@index([bookId])
+  @@index([billingPeriodStart])
+  @@index([clerkId, billingPeriodStart])
+}
