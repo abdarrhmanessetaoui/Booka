@@ -167,3 +167,4 @@ export const CLERK_AUTH_APPEARANCE_OVERRIDE = {
     footerActionLink: 'text-[#212a3b] hover:text-[#3d485e] text-base font-medium',
 };
 
+

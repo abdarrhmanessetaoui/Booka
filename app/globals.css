@@ -425,7 +425,7 @@
     }
   }
   .vapi-mic-btn-active {
-    @apply bg-white;
+    @apply bg-[#212a3b];
   }
   .vapi-mic-btn-inactive {
     @apply bg-white;
@@ -448,6 +448,9 @@
   }
   .vapi-status-dot-connecting {
     @apply bg-yellow-500 animate-pulse;
+  }
+  .vapi-status-dot-starting {
+    @apply bg-blue-500 animate-pulse;
   }
   .vapi-status-dot-listening {
     @apply bg-green-500 animate-pulse;
@@ -953,3 +956,33 @@ button[data-variant='unstyled'] *,
   border-radius: 0.75rem;
   font-size: 1.125rem;
 }
+
+.clerk-pricing-container {
+  --cl-color-primary: var(--primary);
+  --cl-color-text: var(--foreground);
+  --cl-color-background: var(--background);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/*!* Match the app's existing design system *!*/
+/*.clerk-pricing-container :deep(.cl-pricing-table) {*/
+/*  font-family: var(--font-mona-sans), sans-serif;*/
+/*}*/
+
+/*.clerk-pricing-container :deep(.cl-pricing-table-header) {*/
+/*  font-family: var(--font-ibm-plex-serif), serif;*/
+/*}*/
+
+/*.clerk-pricing-container :deep(.cl-pricing-plan-card) {*/
+/*  border: 2px solid var(--border);*/
+/*  border-radius: 12px;*/
+/*  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);*/
+/*  transition: transform 0.2s ease;*/
+/*}*/
+
+/*.clerk-pricing-container :deep(.cl-pricing-plan-card:hover) {*/
+/*  transform: translate(-2px, -2px);*/
+/*  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);*/
+/*}*/
