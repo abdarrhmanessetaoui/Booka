@@ -1,14 +1,14 @@
 'use client';
 
-import {Mic, MicOff} from "lucide-react";
+import { Mic, MicOff } from "lucide-react";
 import useVapi from "@/hooks/useVapi";
-import {IBook} from "@/types";
+import { IBook } from "@/types";
 import Image from "next/image";
 import Transcript from "@/components/Transcript";
-import {toast} from "sonner";
+import { toast } from "sonner";
 
-import {useRouter} from "next/navigation";
-import {useEffect} from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const VapiControls = ({ book }: { book: IBook }) => {
     const { status, isActive, messages, currentMessage, currentUserMessage, duration, start, stop, clearError, limitError, isBillingError, maxDurationSeconds } = useVapi(book)
@@ -34,12 +34,12 @@ const VapiControls = ({ book }: { book: IBook }) => {
 
     const getStatusDisplay = () => {
         switch (status) {
-            case 'connecting': return { label: 'Connecting...', color: 'vapi-status-dot-connecting' };
-            case 'starting': return { label: 'Starting...', color: 'vapi-status-dot-starting' };
-            case 'listening': return { label: 'Listening', color: 'vapi-status-dot-listening' };
-            case 'thinking': return { label: 'Thinking...', color: 'vapi-status-dot-thinking' };
-            case 'speaking': return { label: 'Speaking', color: 'vapi-status-dot-speaking' };
-            default: return { label: 'Ready', color: 'vapi-status-dot-ready' };
+            case 'connecting': return { label: 'Connexion...', color: 'vapi-status-dot-connecting' };
+            case 'starting': return { label: 'Démarrage...', color: 'vapi-status-dot-starting' };
+            case 'listening': return { label: 'Écoute', color: 'vapi-status-dot-listening' };
+            case 'thinking': return { label: 'Réflexion...', color: 'vapi-status-dot-thinking' };
+            case 'speaking': return { label: 'Parle', color: 'vapi-status-dot-speaking' };
+            default: return { label: 'Prêt', color: 'vapi-status-dot-ready' };
         }
     };
 
@@ -52,7 +52,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
                 <div className="vapi-header-card">
                     <div className="vapi-cover-wrapper">
                         <Image
-                            src={book.coverURL || "/images/book-placeholder.png"}
+                            src={book.coverURL || "/assets/book.png"}
                             alt={book.title}
                             width={120}
                             height={180}
@@ -82,7 +82,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
                             <h1 className="text-2xl sm:text-3xl font-bold font-serif text-[#212a3b] mb-1">
                                 {book.title}
                             </h1>
-                            <p className="text-[#3d485e] font-medium">by {book.author}</p>
+                            <p className="text-[#3d485e] font-medium">par {book.author}</p>
                         </div>
 
                         <div className="flex flex-wrap gap-3">
@@ -92,7 +92,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
                             </div>
 
                             <div className="vapi-status-indicator">
-                                <span className="vapi-status-text">Voice: {book.persona || "Daniel"}</span>
+                                <span className="vapi-status-text">Voix : {book.persona || "Daniel"}</span>
                             </div>
 
                             <div className="vapi-status-indicator">
@@ -104,15 +104,15 @@ const VapiControls = ({ book }: { book: IBook }) => {
                     </div>
                 </div>
 
-            <div className="vapi-transcript-wrapper">
-                <div className="transcript-container min-h-[400px]">
-                    <Transcript
-                        messages={messages}
-                        currentMessage={currentMessage}
-                        currentUserMessage={currentUserMessage}
-                    />
+                <div className="vapi-transcript-wrapper">
+                    <div className="transcript-container min-h-[400px]">
+                        <Transcript
+                            messages={messages}
+                            currentMessage={currentMessage}
+                            currentUserMessage={currentUserMessage}
+                        />
+                    </div>
                 </div>
-            </div>
             </div>
         </>
     )

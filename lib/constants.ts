@@ -98,13 +98,13 @@ export const ASSISTANT_ID = process.env.NEXT_PUBLIC_ASSISTANT_ID!;
 // 11Labs Voice IDs - Optimized for conversational AI
 // Voices selected for natural, engaging book conversations
 export const voiceOptions = {
-    // Male voices
-    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Young male, British-Essex, casual & conversational' },
-    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Middle-aged male, British, authoritative but warm' },
-    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Male, casual & easy-going' },
-    // Female voices
-    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear' },
-    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable' },
+    // Voix masculines
+    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Jeune homme, accent britannique, décontracté & conversationnel' },
+    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Homme d’âge mûr, accent britannique, posé mais chaleureux' },
+    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Homme, décontracté & accessible' },
+    // Voix féminines
+    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Jeune femme, accent américain, calme & claire' },
+    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Jeune femme, accent américain, douce & approchable' },
 };
 
 // Voice categories for the selector UI

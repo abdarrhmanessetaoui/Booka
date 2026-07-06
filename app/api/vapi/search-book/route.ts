@@ -6,7 +6,7 @@ import { searchBookSegments } from '@/lib/actions/book.actions';
 async function processBookSearch(bookId: unknown, query: unknown) {
     // Validate inputs before conversion to prevent null/undefined becoming "null"/"undefined" strings
     if (bookId == null || query == null || query === '') {
-        return { result: 'Missing bookId or query' };
+        return { result: 'bookId ou requête manquante' };
     }
 
     // Convert bookId to string
@@ -15,7 +15,7 @@ async function processBookSearch(bookId: unknown, query: unknown) {
 
     // Additional validation after conversion
     if (!bookIdStr || bookIdStr === 'null' || bookIdStr === 'undefined' || !queryStr) {
-        return { result: 'Missing bookId or query' };
+        return { result: 'bookId ou requête manquante' };
     }
 
     // Execute search
@@ -23,7 +23,7 @@ async function processBookSearch(bookId: unknown, query: unknown) {
 
     // Return results
     if (!searchResult.success || !searchResult.data?.length) {
-        return { result: 'No information found about this topic in the book.' };
+        return { result: 'Aucune information trouvée sur ce sujet dans le livre.' };
     }
 
     const combinedText = searchResult.data

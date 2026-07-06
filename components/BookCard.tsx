@@ -3,7 +3,7 @@ import { BookCardProps } from "@/types";
 import Image from "next/image";
 
 const BookCard = ({ title, author, coverURL, slug }: BookCardProps) => {
-    const safeTitle = title || "Book Cover";
+    const safeTitle = title || "Couverture du livre";
 
     return (
         <Link href={`/books/${slug}`}>
@@ -29,8 +29,8 @@ const BookCard = ({ title, author, coverURL, slug }: BookCardProps) => {
                     </div>
 
                     <figcaption className="book-card-meta">
-                        <h3 className="book-card-title">{title || "Unknown Title"}</h3>
-                        <p className="book-card-author">{author || "Unknown Author"}</p>
+                        <h3 className="book-card-title">{title || "Titre Inconnu"}</h3>
+                        <p className="book-card-author">{author || "Auteur Inconnu"}</p>
                     </figcaption>
                 </figure>
             </article>

@@ -13,12 +13,12 @@ import { ACCEPTED_PDF_TYPES, ACCEPTED_IMAGE_TYPES, DEFAULT_VOICE } from '@/lib/c
 import FileUploader from './FileUploader';
 import VoiceSelector from './VoiceSelector';
 import LoadingOverlay from './LoadingOverlay';
-import {useAuth, useUser} from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { toast } from 'sonner';
-import {checkBookExists, createBook, saveBookSegments} from "@/lib/actions/book.actions";
-import {useRouter} from "next/navigation";
-import {parsePDFFile} from "@/lib/utils";
-import {upload} from "@vercel/blob/client";
+import { checkBookExists, createBook, saveBookSegments } from "@/lib/actions/book.actions";
+import { useRouter } from "next/navigation";
+import { parsePDFFile } from "@/lib/utils";
+import { upload } from "@vercel/blob/client";
 
 const UploadForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,8 +42,8 @@ const UploadForm = () => {
     });
 
     const onSubmit = async (data: BookUploadFormValues) => {
-        if(!userId) {
-           return toast.error("Please login to upload books");
+        if (!userId) {
+            return toast.error("Veuillez vous connecter pour uploader des livres");
         }
 
         setIsSubmitting(true);
@@ -53,8 +53,8 @@ const UploadForm = () => {
         try {
             const existsCheck = await checkBookExists(data.title);
 
-            if(existsCheck.exists && existsCheck.book) {
-                toast.info("Book with same title already exists.");
+            if (existsCheck.exists && existsCheck.book) {
+                toast.info("Un livre avec le même titre existe déjà.");
                 form.reset()
                 router.push(`/books/${existsCheck.book.slug}`)
                 return;
@@ -65,8 +65,8 @@ const UploadForm = () => {
 
             const parsedPDF = await parsePDFFile(pdfFile);
 
-            if(parsedPDF.content.length === 0) {
-                toast.error("Failed to parse PDF. Please try again with a different file.");
+            if (parsedPDF.content.length === 0) {
+                toast.error("Échec de l'analyse du PDF. Veuillez réessayer avec un autre fichier.");
                 return;
             }
 
@@ -78,7 +78,7 @@ const UploadForm = () => {
 
             let coverUrl: string;
 
-            if(data.coverImage) {
+            if (data.coverImage) {
                 const coverFile = data.coverImage;
                 const uploadedCoverBlob = await upload(`${fileTitle}_cover.png`, coverFile, {
                     access: 'public',
@@ -109,16 +109,16 @@ const UploadForm = () => {
                 fileSize: pdfFile.size,
             });
 
-            if(!book.success) {
-                toast.error(book.error as string || "Failed to create book");
+            if (!book.success) {
+                toast.error(book.error as string || "Échec de la création du livre");
                 if (book.isBillingError) {
                     router.push("/subscriptions");
                 }
                 return;
             }
 
-            if(book.alreadyExists) {
-                toast.info("Book with same title already exists.");
+            if (book.alreadyExists) {
+                toast.info("Un livre avec le même titre existe déjà.");
                 form.reset()
                 router.push(`/books/${book.data.slug}`)
                 return;
@@ -126,9 +126,9 @@ const UploadForm = () => {
 
             const segments = await saveBookSegments(book.data._id, userId, parsedPDF.content);
 
-            if(!segments.success) {
-                toast.error("Failed to save book segments");
-                throw new Error("Failed to save book segments");
+            if (!segments.success) {
+                toast.error("Échec de la sauvegarde des segments du livre");
+                throw new Error("Échec de la sauvegarde des segments du livre");
             }
 
             form.reset();
@@ -136,7 +136,7 @@ const UploadForm = () => {
         } catch (error) {
             console.error(error);
 
-            toast.error("Failed to upload book. Please try again later.");
+            toast.error("Échec de l'upload du livre. Veuillez réessayer plus tard.");
         } finally {
             setIsSubmitting(false);
         }
@@ -155,11 +155,11 @@ const UploadForm = () => {
                         <FileUploader
                             control={form.control}
                             name="pdfFile"
-                            label="Book PDF File"
+                            label="Fichier PDF du livre"
                             acceptTypes={ACCEPTED_PDF_TYPES}
                             icon={Upload}
-                            placeholder="Click to upload PDF"
-                            hint="PDF file (max 50MB)"
+                            placeholder="Cliquez pour uploader le PDF"
+                            hint="Fichier PDF (max 50 Mo)"
                             disabled={isSubmitting}
                         />
 
@@ -167,11 +167,11 @@ const UploadForm = () => {
                         <FileUploader
                             control={form.control}
                             name="coverImage"
-                            label="Cover Image (Optional)"
+                            label="Image de couverture (Optionnel)"
                             acceptTypes={ACCEPTED_IMAGE_TYPES}
                             icon={ImageIcon}
-                            placeholder="Click to upload cover image"
-                            hint="Leave empty to auto-generate from PDF"
+                            placeholder="Cliquez pour uploader l'image"
+                            hint="Laissez vide pour générer automatiquement depuis le PDF"
                             disabled={isSubmitting}
                         />
 
@@ -181,11 +181,11 @@ const UploadForm = () => {
                             name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="form-label">Title</FormLabel>
+                                    <FormLabel className="form-label">Titre</FormLabel>
                                     <FormControl>
                                         <Input
                                             className="form-input"
-                                            placeholder="ex: Rich Dad Poor Dad"
+                                            placeholder="ex: Père Riche Père Pauvre"
                                             {...field}
                                             disabled={isSubmitting}
                                         />
@@ -201,7 +201,7 @@ const UploadForm = () => {
                             name="author"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="form-label">Author Name</FormLabel>
+                                    <FormLabel className="form-label">Nom de l'auteur</FormLabel>
                                     <FormControl>
                                         <Input
                                             className="form-input"
@@ -221,7 +221,7 @@ const UploadForm = () => {
                             name="persona"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="form-label">Choose Assistant Voice</FormLabel>
+                                    <FormLabel className="form-label">Choisir la voix de l'assistant</FormLabel>
                                     <FormControl>
                                         <VoiceSelector
                                             value={field.value}
@@ -236,7 +236,7 @@ const UploadForm = () => {
 
                         {/* 6. Submit Button */}
                         <Button type="submit" className="form-btn" disabled={isSubmitting}>
-                            Begin Synthesis
+                            {isSubmitting ? "Traitement en cours..." : "Commencer la synthèse"}
                         </Button>
                     </form>
                 </Form>

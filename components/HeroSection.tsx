@@ -9,14 +9,14 @@ const HeroSection = () => {
                 <div className="library-hero-content">
                     {/* Left Part */}
                     <div className="library-hero-text">
-                        <h1 className="library-hero-title text-4xl font-serif font-bold">Your Library</h1>
+                        <h1 className="library-hero-title text-4xl font-serif font-bold">Votre Bibliothèque</h1>
                         <p className="library-hero-description">
-                            Convert your books into interactive AI conversations. <br className="hidden md:block" />
-                            Listen, learn, and discuss your favorite reads.
+                            Convertissez vos livres en conversations interactives avec l'IA. <br className="hidden md:block" />
+                            Écoutez, apprenez et discutez de vos lectures préférées.
                         </p>
                         <Link href="/books/new" className="library-cta-primary mt-4 flex items-center justify-center">
                             <span className="text-3xl font-light mb-1 mr-2">+</span>
-                            <span className="text-[#212a3b]">Add new book</span>
+                            <span className="text-[#212a3b]">Ajouter un livre</span>
                         </Link>
                     </div>
 
@@ -48,22 +48,22 @@ const HeroSection = () => {
                             <li className="library-step-item">
                                 <div className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-300 flex items-center justify-center font-medium text-lg">1</div>
                                 <div className="flex flex-col">
-                                    <h3 className="library-step-title text-lg font-bold">Upload PDF</h3>
-                                    <p className="library-step-description text-gray-500">Add your book file</p>
+                                    <h3 className="library-step-title text-lg font-bold">Uploader le PDF</h3>
+                                    <p className="library-step-description text-gray-500">Ajoutez votre fichier</p>
                                 </div>
                             </li>
                             <li className="library-step-item">
                                 <div className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-300 flex items-center justify-center font-medium text-lg">2</div>
                                 <div className="flex flex-col">
-                                    <h3 className="library-step-title text-lg font-bold">AI Processing</h3>
-                                    <p className="library-step-description text-gray-500">We analyze the content</p>
+                                    <h3 className="library-step-title text-lg font-bold">Traitement IA</h3>
+                                    <p className="library-step-description text-gray-500">Nous analysons le contenu</p>
                                 </div>
                             </li>
                             <li className="library-step-item">
                                 <div className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-300 flex items-center justify-center font-medium text-lg">3</div>
                                 <div className="flex flex-col">
-                                    <h3 className="library-step-title text-lg font-bold">Voice Chat</h3>
-                                    <p className="library-step-description text-gray-500">Discuss with AI</p>
+                                    <h3 className="library-step-title text-lg font-bold">Chat Vocal</h3>
+                                    <p className="library-step-description text-gray-500">Discutez avec l'IA</p>
                                 </div>
                             </li>
                         </ul>

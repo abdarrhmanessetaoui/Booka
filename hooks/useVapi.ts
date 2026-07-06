@@ -84,9 +84,9 @@ export function useVapi(book: IBook) {
                         if (newDuration >= maxDurationRef.current) {
                             getVapi().stop();
                             setLimitError(
-                                `Session time limit (${Math.floor(
+                                `Limite de temps de session (${Math.floor(
                                     maxDurationRef.current / SECONDS_PER_MINUTE,
-                                )} minutes) reached. Upgrade your plan for longer sessions.`,
+                                )} minutes) atteinte. Mettez à niveau votre forfait pour des sessions plus longues.`,
                             );
                         }
                     }
@@ -162,15 +162,15 @@ export function useVapi(book: IBook) {
                     if (message.role === 'user') setCurrentUserMessage('');
 
                     setMessages((prev) => {
-                        const isDupe = prev.some(
-                            (m) => m.role === message.role && m.content === message.transcript,
-                        );
-                        return isDupe ? prev : [...prev, { role: message.role, content: message.transcript }];
+                        const lastMsg = prev[prev.length - 1];
+                        const isImmediateDupe = lastMsg && lastMsg.role === message.role && lastMsg.content === message.transcript;
+
+                        return isImmediateDupe ? prev : [...prev, { role: message.role, content: message.transcript }];
                     });
                 }
             },
 
-            error: (error: Error) => {
+            error: (error: any) => {
                 console.error('Vapi error:', error);
                 // Don't reset isStoppingRef here - delayed events may still fire
                 setStatus('idle');
@@ -192,13 +192,16 @@ export function useVapi(book: IBook) {
                 }
 
                 // Show user-friendly error message
-                const errorMessage = error.message?.toLowerCase() || '';
+                const errorMessage = (error?.message || (typeof error === 'string' ? error : JSON.stringify(error))).toLowerCase();
                 if (errorMessage.includes('timeout') || errorMessage.includes('silence')) {
-                    setLimitError('Session ended due to inactivity. Click the mic to start again.');
+                    setLimitError('Session terminée pour inactivité. Cliquez sur le micro pour recommencer.');
                 } else if (errorMessage.includes('network') || errorMessage.includes('connection')) {
-                    setLimitError('Connection lost. Please check your internet and try again.');
+                    setLimitError('Connexion perdue. Veuillez vérifier votre internet et réessayer.');
+                } else if (errorMessage.includes('ejection')) {
+                    // This is a normal end when the meeting is ended by the server
+                    setLimitError(null);
                 } else {
-                    setLimitError('Session ended unexpectedly. Click the mic to start again.');
+                    setLimitError('La session s\'est terminée de manière inattendue. Cliquez sur le micro pour recommencer.');
                 }
 
                 startTimeRef.current = null;
@@ -229,7 +232,7 @@ export function useVapi(book: IBook) {
 
     const start = useCallback(async () => {
         if (!userId) {
-            setLimitError('Please sign in to start a voice session.');
+            setLimitError('Veuillez vous connecter pour démarrer une session vocale.');
             return;
         }
 
@@ -242,7 +245,7 @@ export function useVapi(book: IBook) {
             const result = await startVoiceSession(userId, book._id);
 
             if (!result.success) {
-                setLimitError(result.error || 'Session limit reached. Please upgrade your plan.');
+                setLimitError(result.error || 'Limite de session atteinte. Veuillez mettre à niveau votre forfait.');
                 setIsBillingError(!!result.isBillingError);
                 setStatus('idle');
                 return;
@@ -252,29 +255,27 @@ export function useVapi(book: IBook) {
             // Note: Server-returned maxDurationMinutes is informational only
             // The actual limit is enforced by useLatestRef(limits.maxSessionMinutes * 60)
 
-            const firstMessage = `Hey, good to meet you. Quick question before we dive in - have you actually read ${book.title} yet, or are we starting fresh?`;
+            const firstMessage = `Bonjour ! Ravi de vous rencontrer. Petite question avant de commencer : avez-vous déjà lu "${book.title}", ou on commence à zéro ?`;
 
             await getVapi().start(ASSISTANT_ID, {
                 firstMessage,
                 variableValues: {
                     title: book.title,
                     author: book.author,
-                    bookId: book._id,
+                    bookId: String(book._id),
+                    // Force French language for the AI agent
+                    language: 'français',
                 },
-                voice: {
-                    provider: '11labs' as const,
-                    voiceId: getVoice(voice).id,
-                    model: 'eleven_turbo_v2_5' as const,
-                    stability: VOICE_SETTINGS.stability,
-                    similarityBoost: VOICE_SETTINGS.similarityBoost,
-                    style: VOICE_SETTINGS.style,
-                    useSpeakerBoost: VOICE_SETTINGS.useSpeakerBoost,
+                transcriber: {
+                    provider: 'deepgram',
+                    model: 'nova-2',
+                    language: 'fr',
                 },
             });
         } catch (err) {
             console.error('Failed to start call:', err);
             setStatus('idle');
-            setLimitError('Failed to start voice session. Please try again.');
+            setLimitError('Échec du démarrage de la session vocale. Veuillez réessayer.');
         }
     }, [book._id, book.title, book.author, voice, userId]);
 
@@ -294,12 +295,6 @@ export function useVapi(book: IBook) {
         status === 'thinking' ||
         status === 'speaking';
 
-    // Calculate remaining time
-    // const maxDurationSeconds = limits.maxSessionMinutes * SECONDS_PER_MINUTE;
-    // const remainingSeconds = Math.max(0, maxDurationSeconds - duration);
-    // const showTimeWarning =
-    //     isActive && remainingSeconds <= TIME_WARNING_THRESHOLD && remainingSeconds > 0;
-
     return {
         status,
         isActive,
@@ -313,9 +308,6 @@ export function useVapi(book: IBook) {
         isBillingError,
         maxDurationSeconds,
         clearError,
-        // maxDurationSeconds,
-        // remainingSeconds,
-        // showTimeWarning,
     };
 }
 
