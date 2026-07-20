@@ -18,7 +18,7 @@ const VoiceSelector = ({ value, onChange, disabled, className }: VoiceSelectorPr
             >
                 {/* Male Voices */}
                 <div className="space-y-4">
-                    <h4 className="text-sm font-medium text-[#777]">Male Voices</h4>
+                    <h4 className="text-sm font-medium text-[#777]">Voix Masculines</h4>
                     <div className="voice-selector-options">
                         {voiceCategories.male.map((voiceId) => {
                             const voice = voiceOptions[voiceId as keyof typeof voiceOptions];
@@ -55,7 +55,7 @@ const VoiceSelector = ({ value, onChange, disabled, className }: VoiceSelectorPr
 
                 {/* Female Voices */}
                 <div className="space-y-4">
-                    <h4 className="text-sm font-medium text-[#777]">Female Voices</h4>
+                    <h4 className="text-sm font-medium text-[#777]">Voix Féminines</h4>
                     <div className="voice-selector-options">
                         {voiceCategories.female.map((voiceId) => {
                             const voice = voiceOptions[voiceId as keyof typeof voiceOptions];

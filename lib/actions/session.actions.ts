@@ -1,9 +1,9 @@
 'use server';
 
-import {EndSessionResult, StartSessionResult} from "@/types";
-import {connectToDatabase} from "@/database/mongoose";
+import { EndSessionResult, StartSessionResult } from "@/types";
+import { connectToDatabase } from "@/database/mongoose";
 import VoiceSession from "@/database/models/voice-session.model";
-import {getCurrentBillingPeriodStart} from "@/lib/subscription-constants";
+import { getCurrentBillingPeriodStart } from "@/lib/subscription-constants";
 
 export const startVoiceSession = async (clerkId: string, bookId: string): Promise<StartSessionResult> => {
     try {
@@ -28,7 +28,7 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
 
             return {
                 success: false,
-                error: `You have reached the monthly session limit for your ${plan} plan (${limits.maxSessionsPerMonth}). Please upgrade for more sessions.`,
+                error: `Vous avez atteint la limite de sessions mensuelles pour votre forfait ${plan} (${limits.maxSessionsPerMonth}). Veuillez mettre à niveau pour obtenir plus de sessions.`,
                 isBillingError: true,
             };
         }
@@ -48,7 +48,7 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
         }
     } catch (e) {
         console.error('Error starting voice session', e);
-        return { success: false, error: 'Failed to start voice session. Please try again later.' }
+        return { success: false, error: 'Échec du démarrage de la session vocale. Veuillez réessayer plus tard.' }
     }
 }
 
@@ -61,12 +61,12 @@ export const endVoiceSession = async (sessionId: string, durationSeconds: number
             durationSeconds,
         });
 
-        if(!result) return { success: false, error: 'Voice session not found.' }
+        if (!result) return { success: false, error: 'Session vocale introuvable.' }
 
         return { success: true }
     } catch (e) {
         console.error('Error ending voice session', e);
-        return { success: false, error: 'Failed to end voice session. Please try again later.' }
+        return { success: false, error: 'Échec de la fin de la session vocale. Veuillez réessayer plus tard.' }
     }
 }
 

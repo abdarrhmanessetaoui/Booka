@@ -1,5 +1,5 @@
 {
-  "name": "bookified",
+  "name": "livre-ia",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@clerk/localizations": "^4.13.5",
     "@clerk/nextjs": "^6.38.1",
     "@hookform/resolvers": "^5.2.2",
     "@vapi-ai/web": "^2.5.2",

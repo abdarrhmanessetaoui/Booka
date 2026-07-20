@@ -1,12 +1,12 @@
 'use server';
 
-import {CreateBook, TextSegment} from "@/types";
-import {connectToDatabase} from "@/database/mongoose";
-import {escapeRegex, generateSlug, serializeData} from "@/lib/utils";
+import { CreateBook, TextSegment } from "@/types";
+import { connectToDatabase } from "@/database/mongoose";
+import { escapeRegex, generateSlug, serializeData } from "@/lib/utils";
 import Book from "@/database/models/book.model";
 import BookSegment from "@/database/models/book-segment.model";
 import mongoose from "mongoose";
-import {getUserPlan} from "@/lib/subscription.server";
+import { getUserPlan } from "@/lib/subscription.server";
 
 export const getAllBooks = async (search?: string) => {
     try {
@@ -45,9 +45,9 @@ export const checkBookExists = async (title: string) => {
 
         const slug = generateSlug(title);
 
-        const existingBook = await Book.findOne({slug}).lean();
+        const existingBook = await Book.findOne({ slug }).lean();
 
-        if(existingBook) {
+        if (existingBook) {
             return {
                 exists: true,
                 book: serializeData(existingBook)
@@ -71,9 +71,9 @@ export const createBook = async (data: CreateBook) => {
 
         const slug = generateSlug(data.title);
 
-        const existingBook = await Book.findOne({slug}).lean();
+        const existingBook = await Book.findOne({ slug }).lean();
 
-        if(existingBook) {
+        if (existingBook) {
             return {
                 success: true,
                 data: serializeData(existingBook),
@@ -89,7 +89,7 @@ export const createBook = async (data: CreateBook) => {
         const { userId } = await auth();
 
         if (!userId || userId !== data.clerkId) {
-            return { success: false, error: "Unauthorized" };
+            return { success: false, error: "Non autorisé" };
         }
 
         const plan = await getUserPlan();
@@ -103,12 +103,12 @@ export const createBook = async (data: CreateBook) => {
 
             return {
                 success: false,
-                error: `You have reached the maximum number of books allowed for your ${plan} plan (${limits.maxBooks}). Please upgrade to add more books.`,
+                error: `Vous avez atteint le nombre maximum de livres autorisés pour votre forfait ${plan} (${limits.maxBooks}). Veuillez mettre à niveau pour ajouter plus de livres.`,
                 isBillingError: true,
             };
         }
 
-        const book = await Book.create({...data, clerkId: userId, slug, totalSegments: 0});
+        const book = await Book.create({ ...data, clerkId: userId, slug, totalSegments: 0 });
 
         return {
             success: true,
@@ -131,7 +131,7 @@ export const getBookBySlug = async (slug: string) => {
         const book = await Book.findOne({ slug }).lean();
 
         if (!book) {
-            return { success: false, error: 'Book not found' };
+            return { success: false, error: 'Livre non trouvé' };
         }
 
         return {
@@ -164,7 +164,7 @@ export const saveBookSegments = async (bookId: string, clerkId: string, segments
 
         return {
             success: true,
-            data: { segmentsCreated: segments.length}
+            data: { segmentsCreated: segments.length }
         }
     } catch (e) {
         console.error('Error saving book segments', e);

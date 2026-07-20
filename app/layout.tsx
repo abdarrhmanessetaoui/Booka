@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Serif, Mona_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { frFR } from "@clerk/localizations";
 
 import Navbar from "@/components/Navbar";
 import "./globals.css";
@@ -20,7 +21,7 @@ const monaSans = Mona_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Bookified",
+  title: "LivreIA",
   description: "Transformez vos livres en conversations interactives avec l'IA. Uploadez des PDF et discutez avec vos livres par la voix.",
 };
 
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={frFR}>
       <html lang="fr">
         <body
           className={`${ibmPlexSerif.variable} ${monaSans.variable} relative font-sans antialiased`}
