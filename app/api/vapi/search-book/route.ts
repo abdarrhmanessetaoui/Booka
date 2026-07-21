@@ -66,13 +66,13 @@ export async function POST(request: Request) {
                 return NextResponse.json(result);
             }
 
-            return NextResponse.json({ result: `Unknown function: ${name}` });
+            return NextResponse.json({ result: `Fonction inconnue : ${name}` });
         }
 
         // Handle toolCallList format (array of calls)
         if (!toolCallList || toolCallList.length === 0) {
             return NextResponse.json({
-                results: [{ result: 'No tool calls found' }],
+                results: [{ result: 'Aucun appel d\'outil trouvé' }],
             });
         }
 
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
                 const searchResult = await processBookSearch(args.bookId, args.query);
                 results.push({ toolCallId: id, ...searchResult });
             } else {
-                results.push({ toolCallId: id, result: `Unknown function: ${name}` });
+                results.push({ toolCallId: id, result: `Fonction inconnue : ${name}` });
             }
         }
 
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error('Vapi search-book error:', error);
         return NextResponse.json({
-            results: [{ result: 'Error processing request' }],
+            results: [{ result: 'Erreur lors du traitement de la requête' }],
         });
     }
 }

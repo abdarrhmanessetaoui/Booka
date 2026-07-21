@@ -24,7 +24,7 @@ const HeroSection = () => {
                     <div className="library-hero-illustration-desktop">
                         <Image
                             src="/assets/hero-illustration.png"
-                            alt="Vintage books and a globe"
+                            alt="Livres vintage et un globe"
                             width={400}
                             height={400}
                             className="object-contain"
@@ -35,7 +35,7 @@ const HeroSection = () => {
                     <div className="library-hero-illustration">
                         <Image
                             src="/assets/hero-illustration.png"
-                            alt="Vintage books and a globe"
+                            alt="Livres vintage et un globe"
                             width={300}
                             height={300}
                             className="object-contain"
@@ -48,7 +48,7 @@ const HeroSection = () => {
                             <li className="library-step-item">
                                 <div className="w-10 h-10 min-w-10 min-h-10 rounded-full border border-gray-300 flex items-center justify-center font-medium text-lg">1</div>
                                 <div className="flex flex-col">
-                                    <h3 className="library-step-title text-lg font-bold">Uploader le PDF</h3>
+                                    <h3 className="library-step-title text-lg font-bold">Importer le PDF</h3>
                                     <p className="library-step-description text-gray-500">Ajoutez votre fichier</p>
                                 </div>
                             </li>

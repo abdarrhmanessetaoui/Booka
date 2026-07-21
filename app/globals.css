@@ -186,7 +186,7 @@
   }
 
   .input-reset {
-    @apply h-12 border-none lg:!text-lg shadow-none focus:outline-none focus-visible:ring-0;
+    @apply h-12 border-none lg: !text-lg shadow-none focus:outline-none focus-visible:ring-0;
   }
 
   .label {
@@ -1080,7 +1080,7 @@ button[data-variant='unstyled'] *,
    Note: Hardcoded English text - if i18n support is needed, this should be
    handled in JavaScript with translated strings rendered in the DOM. */
 .cl-pricingTableCard:first-child .cl-pricingTableCardContent::after {
-  content: 'Your Current Plan';
+  content: 'Votre forfait actuel';
   display: block;
   text-align: center;
   padding: 0.75rem 1.5rem;

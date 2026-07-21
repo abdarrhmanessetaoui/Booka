@@ -35,10 +35,10 @@ export const splitIntoSegments = (
 ): TextSegment[] => {
   // Validate parameters to prevent infinite loops
   if (segmentSize <= 0) {
-    throw new Error('segmentSize must be greater than 0');
+    throw new Error('segmentSize doit être supérieur à 0');
   }
   if (overlapSize < 0 || overlapSize >= segmentSize) {
-    throw new Error('overlapSize must be >= 0 and < segmentSize');
+    throw new Error('overlapSize doit être >= 0 et < segmentSize');
   }
 
   const words = text.split(/\s+/).filter((word) => word.length > 0);
